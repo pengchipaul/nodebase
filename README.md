@@ -3,6 +3,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## To run this project
 
 npm run build 
+
 nodemon server.js
 
 and go to localhost:8080 to view

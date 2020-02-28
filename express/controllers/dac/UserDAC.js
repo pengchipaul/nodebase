@@ -6,9 +6,10 @@ module.exports = {
         const user = new User(params)
         try {
             await user.save()
-            return user
-        } catch(e) {
-            return null
+            return {user, success: true}
+        } catch(error) {
+            console.log(error)
+            return {error: error.errmsg, success: false}
         }
     }
 }

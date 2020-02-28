@@ -1,8 +1,10 @@
-const express = require('express')
 require('dotenv').config()
+const express = require('express')
+require('./express/db/mongoose')
 const bodyParser = require('body-parser')
 const path = require('path')
 const app = express()
+app.use(express.json())
 app.use(express.static(path.join(__dirname, 'build')))
 
 /* register routes */

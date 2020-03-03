@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const Role = require('./Role')
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -16,22 +17,39 @@ const userSchema = new mongoose.Schema({
         trim: true,
         lowercase: true,
         validate(value) {
-            if(!validator.isEmail(value)){
+            if (!validator.isEmail(value)) {
                 throw new Error('Email is not valid')
             }
         }
     },
     password: {
-        type:String,
+        type: String,
         required: true,
         minlength: 6,
         trim: true
     },
     tokens: {
-        authToken: {
-            type: String
+        authTokens: [{
+            token: {
+                type: String,
+                required: true
+            }
+        }]
+    },
+    roles: [{
+        name: {
+            type: String,
+            required: true,
+            validate: {
+                validator: async function (value) {
+                    var role = await Role.findOne({ name: value })
+                    if (!role) {
+                        throw new Error("user role is not accepted")
+                    }
+                }
+            }
         }
-    }
+    }]
 }, {
     timestamps: true
 })
@@ -49,7 +67,8 @@ userSchema.methods.toJSON = function () {
 userSchema.methods.generateAuthToken = async function () {
     const user = this
     const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET)
-    user.tokens.authToken = token
+
+    user.tokens.authTokens = user.tokens.authTokens.concat({ token })
     await user.save()
 
     return token

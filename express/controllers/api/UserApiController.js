@@ -1,31 +1,26 @@
 const userDAC = require('../dac/UserDAC')
 
 module.exports = {
-    getAllUsers: async function(req, res) {
+    getAllUsers: async function (req, res) {
         try {
-            const result = await userDAC.all()
-            if(result.success){
-                res.json({success: true, users: result})
-            } else {
-                res.json({success: false, error: result.error})
-            }
-        } catch(e) {
-            res.status(400).send(e)
+            const users = await userDAC.all()
+            res.json(users)
+        } catch (e) {
+            res.status(400).send({success: false, error: e})
         }
     },
-    createSample: async function(req, res) {
+    create: async function (req, res) {
         try {
             const result = await userDAC.create(params = req.body)
-            if(result.success){
+            if (result.success) {
                 const user = result.user
                 const token = await user.generateAuthToken()
-                res.json({success: true, user, token})
+                res.json({ success: true, user, authToken })
             } else {
-                res.json({success: false, error: result.error})
+                res.json({ success: false, error: result.error })
             }
-        } catch(e) {
+        } catch (e) {
             res.status(400).send(e)
         }
-        
     }
 }

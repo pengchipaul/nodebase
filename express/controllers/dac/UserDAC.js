@@ -4,11 +4,10 @@ const User = require('../../db/model/User')
 module.exports = {
     all: async function() {
         try {
-            await User.find({}, function(err, users){
-                return {success: true, users}
-            })
+            const users = await User.find()
+            return users
         } catch(error) {
-            return {success: false, error}
+            throw new Error("Unable to get all users")
         }
     },
     create: async function(params){
@@ -18,7 +17,7 @@ module.exports = {
             return {user, success: true}
         } catch(error) {
             console.log(error)
-            return {error: error.errmsg, success: false}
+            return {error, success: false}
         }
     }
 }

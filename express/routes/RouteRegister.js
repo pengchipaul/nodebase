@@ -14,8 +14,12 @@ module.exports = {
         /* Register api routes
         */
         const api_version = '/api_v1.0'
+
         var userApiRouter = require('./api/UserRoute')
         app.use(api_version + '/users', userApiRouter)
+
+        var roleApiRouter = require('./api/RoleRoute')
+        app.use(api_version + '/roles', roleApiRouter)
     }
 }
 

@@ -1,5 +1,3 @@
-var express = require('express')
-
 module.exports = {
     registerRoutes: function(app) {
 

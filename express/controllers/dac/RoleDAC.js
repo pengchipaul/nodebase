@@ -26,5 +26,13 @@ module.exports = {
         } catch (e){
             throw new Error("unable to get role")
         }
+    },
+    findById: async function(id){
+        try {
+            const role = await Role.findOne({_id: id})
+            return role
+        } catch(e) {
+            throw new Error("unable to get role")
+        }
     }
 }

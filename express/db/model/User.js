@@ -37,17 +37,10 @@ const userSchema = new mongoose.Schema({
         }]
     },
     roles: [{
-        name: {
-            type: String,
+        roleId: {
+            type: mongoose.Schema.Types.ObjectId,
             required: true,
-            validate: {
-                validator: async function (value) {
-                    var role = await Role.findOne({ name: value })
-                    if (!role) {
-                        throw new Error("user role is not accepted")
-                    }
-                }
-            }
+            ref: "Role"
         }
     }]
 }, {
@@ -55,7 +48,7 @@ const userSchema = new mongoose.Schema({
 })
 
 userSchema.methods.toJSON = function () {
-    const user = this
+    var user = this
     const userObject = user.toObject()
 
     delete userObject.password

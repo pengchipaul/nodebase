@@ -3,8 +3,8 @@ var router = express.Router()
 
 var indexController = require('../../controllers/web/IndexController')
 /* home page */
-router.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'))
+router.get('/app', function(req, res) {
+    res.render('index/app')
 })
 router.get('/about', indexController.about)
 

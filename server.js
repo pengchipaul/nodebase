@@ -5,9 +5,14 @@ const bodyParser = require('body-parser')
 const path = require('path')
 const app = express()
 app.use(express.json())
-app.use(express.static(path.join(__dirname, 'build')))
 
+/* static assets */
+app.use(express.static('dist'))
+
+/* set view engine */
 app.set('view engine', 'pug')
+app.set('views', path.join(__dirname, '/express/views'))
+app.locals.basedir = __dirname
 
 /* register routes */
 const routeRegister = require('./express/routes/RouteRegister')

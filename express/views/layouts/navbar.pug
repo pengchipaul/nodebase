@@ -1,0 +1,21 @@
+nav(class='navbar navbar-expand-lg sticky-top navbar-light bg-light')
+    button(class='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbar-menu' aria-control='navbar-menu' 
+    aria-expand='false' aria-label='Toggle navigation')
+        span(class='navbar-toggler-icon')
+    div(class='collapse navbar-collapse' id='navbar-menu')
+        a(class='navbar-brand' href='/') App Name
+        ul(class='navbar-nav mr-auto mt-2 mt-lg-0')
+            li(class='nav-item active')
+                a(class='nav-link btn btn-light' href='/') Home
+                    span(class='sr-only') (current)
+            li(class='nav-item')
+                a(class='nav-link btn btn-light' href='/app') App
+        ul(class='navbar-nav ml-auto mt-2 mt-lg-0')
+            if(auth && auth.user)
+                li(class='nav-item')
+                    a(class='nav-link text-white btn btn-warning') Logout
+            else
+                li(class='nav-item')
+                    a(class='nav-link text-white btn btn-primary mr-lg-2 d-sm-block' href='/auth/login') Login
+                li(class='nav-item')
+                    a(class='nav-link text-white btn btn-success d-sm-block' href='/auth/signup') Sign Up

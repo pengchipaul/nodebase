@@ -2,14 +2,9 @@ var express = require('express')
 var router = express.Router()
 
 var roleApiController = require('../../controllers/api/RoleApiController')
-var test = require('../../middleware/test')
+var test = require('../../middleware/api/test')
 
-router.get('/all', test, function(req, res){
-    roleApiController.all(req, res)
-})
-
-router.post('/create', test, function(req, res){
-    roleApiController.create(req, res)
-})
+router.get('/all', test, roleApiController.all)
+router.post('/create', test, roleApiController.create)
 
 module.exports = router

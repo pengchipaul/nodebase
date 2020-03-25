@@ -7,18 +7,28 @@ html
         meta(name='theme-color' content='#000000')
         meta(name='description' content='An app for creating templates and generating docs')
 
-        title Docs Generator
+        title App Name
+
+        script(src='/jquery.js')
+        script(src='/app.js')
+        link(href='/app.css' rel='stylesheet')
 
         block headScripts
     body
-        block content
+
+        div#main(style='min-height: 100vh')
+            include navbar.pug
+
+            block content
+            
+            footer#footer(style="position: absolute; bottom: 0; right: 20px")
+                p developed by Paul Peng
 
         script(src='/public.js')
 
         block bottomScripts
 
-        footer#footer(class='text-center')
-            p developed by Paul Peng
+        
 
     
     

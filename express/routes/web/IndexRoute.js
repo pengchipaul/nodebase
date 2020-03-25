@@ -1,11 +1,14 @@
 var express = require('express')
 var router = express.Router()
 
-var indexController = require('../../controllers/web/IndexController')
+const indexController = require('../../controllers/web/IndexController')
+const auth = require('../../middleware/web/auth')
+
 /* home page */
-router.get('/app', function(req, res) {
-    res.render('index/app')
-})
+router.get('/', indexController.index)
+/* user app page */
+router.get('/app', auth, indexController.app)
+/* other static pages */
 router.get('/about', indexController.about)
 
 module.exports = router

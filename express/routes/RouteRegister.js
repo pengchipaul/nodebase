@@ -1,13 +1,16 @@
+/* Register web routes */
 function registerWebRoutes(app) {
-	/* Register web routes
-	 */
 	var indexRouter = require("./web/IndexRoute");
 	app.use("/", indexRouter);
+
+	var authRouter = require("./web/AuthRoute");
+	app.use("/auth", authRouter);
 
 	var userRouter = require("./web/UserRoute");
 	app.use("/users", userRouter);
 }
 
+/* Register api routes */
 function registerApiRoutes(app) {
 	var userApiRouter = require("./api/UserRoute");
 	registerApiRoute(app, "/users", userApiRouter);
@@ -17,7 +20,7 @@ function registerApiRoutes(app) {
 }
 
 function registerApiRoute(app, url, router) {
-	const ver = "/api_v1.0";
+	const ver = "/" + process.env.API_VER;
 	app.use(ver + url, router);
 }
 

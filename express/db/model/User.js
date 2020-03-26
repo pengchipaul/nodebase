@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const uniqueValidator = require('mongoose-unique-validator')
 const Role = require('./Role')
 
 const userSchema = new mongoose.Schema({
@@ -33,13 +34,17 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     }],
-    roles: [{
-        roleId: {
+    roles: [
+        {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
             ref: "Role"
         }
-    }]
+    ],
+    superAdmin: {
+        type: Boolean,
+        default: false
+    }
 }, {
     timestamps: true
 })
@@ -90,6 +95,9 @@ userSchema.pre('save', async function (next) {
 
     next()
 })
+
+// catch unqiue error
+userSchema.plugin(uniqueValidator, {message: '{PATH} already exists'})
 
 const User = mongoose.model('User', userSchema)
 

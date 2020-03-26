@@ -40,11 +40,15 @@ module.exports = {
             if(req.body.password !== req.body.confirmPassword) {
                 req.session.errors = {
                     input: {
-                        passwordConfirmation: "Confirm password does not match"
+                        passwordConfirmation: {
+                            message: "Confirm password does not match"
+                        }
+
                     }
                 }
                 req.session.input = req.body
                 res.redirect('/auth/signup')
+                return
             }
             const result = await userDac.create(params = req.body)
             if(result.success){

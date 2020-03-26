@@ -25,17 +25,14 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        minlength: 6,
+        minlength: [6, "Minimum length is 6"],
+        maxlength: [50, "Maximum length is 50"],
         trim: true
     },
-    tokens: {
-        authTokens: [{
-            token: {
-                type: String,
-                required: true
-            }
-        }]
-    },
+    authTokens: [{
+        type: String,
+        required: true
+    }],
     roles: [{
         roleId: {
             type: mongoose.Schema.Types.ObjectId,
@@ -61,7 +58,7 @@ userSchema.methods.generateAuthToken = async function () {
     const user = this
     const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET)
 
-    user.tokens.authTokens = user.tokens.authTokens.concat({ token })
+    user.authTokens = user.authTokens.concat({ token })
     await user.save()
 
     return token

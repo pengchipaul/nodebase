@@ -3,7 +3,7 @@ nav(class='navbar navbar-expand-lg sticky-top navbar-light bg-light')
     aria-expand='false' aria-label='Toggle navigation')
         span(class='navbar-toggler-icon')
     div(class='collapse navbar-collapse' id='navbar-menu')
-        a(class='navbar-brand' href='/') App Name
+        a(class='navbar-brand' href='/')= process.env.APP_NAME
         ul(class='navbar-nav mr-auto mt-2 mt-lg-0')
             li(class='nav-item active')
                 a(class='nav-link btn btn-light' href='/') Home
@@ -13,7 +13,9 @@ nav(class='navbar navbar-expand-lg sticky-top navbar-light bg-light')
         ul(class='navbar-nav ml-auto mt-2 mt-lg-0')
             if(auth && auth.user)
                 li(class='nav-item')
-                    a(class='nav-link text-white btn btn-warning') Logout
+                    a(class='nav-link text-white btn btn-warning' href='/auth/logout', 
+                    onClick='event.preventDefault();document.getElementById("logout-form").submit();') Logout
+                    form#logout-form(class='d-none' method='post' action='/auth/logout')
             else
                 li(class='nav-item')
                     a(class='nav-link text-white btn btn-primary mr-lg-2 d-sm-block' href='/auth/login') Login

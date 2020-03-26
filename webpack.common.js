@@ -1,7 +1,6 @@
 module.exports = {
     context: __dirname + '/resources',
     entry: './js/index.js',
-    devtool: 'inline-source-map',
     output: {
         path: __dirname + '/dist',
         filename: 'public.js'

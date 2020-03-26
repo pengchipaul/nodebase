@@ -1,0 +1,22 @@
+if errors
+    div#errors(class='mt-2 container-fluid')
+        if errors.server
+            div(class='mb-2 alert alert-warning')= errors.server
+        if errors.input
+            each error, name in errors.input
+                div(class='mb-2 alert alert-danger')= name + ": " + error.message
+    
+if info
+    div#info(class='mt-2 container-fluid')
+        if info.notifications
+            each msg in info.notifications
+                div(class='mb-2 alert alert-info')= msg
+        if info.success
+            each msg in info.success
+                div(class='mb-2 alert alert-success')= msg
+        if info.warnings
+            each msg in info.warnings
+                div(class='mb-2 alert alert-warning')= msg
+        if info.dangers
+            each msg in info.dangers
+                div(class='mb-2 alert alert-danger')= msg

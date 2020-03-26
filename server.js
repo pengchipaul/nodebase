@@ -27,9 +27,31 @@ if(process.env.NODE_ENV === 'production'){
 }
 app.use(session(sess))
 app.use(function(req, res, next) {
+    /* initialize auth */
     if(!req.session.auth){
         req.session.auth = {}
+    } else {
+        res.locals.auth = req.session.auth
     }
+
+    /* load input data errors */
+    if(req.session.errors) {
+        res.locals.errors = req.session.errors
+        delete req.session.errors
+    }
+    /* load previous input */
+    if(req.session.input) {
+        res.locals.input = req.session.input
+        delete req.session.input
+    }
+
+    /* load flash messages */
+    if(req.session.info) {
+        res.locals.info = req.session.info
+        delete req.session.info
+    }
+
+
     next()
 })
 

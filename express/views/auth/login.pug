@@ -7,12 +7,12 @@ block content
                 div(class='card')
                     div(class='card-header') Login
                     div(class='card-body')
-                        form
+                        form(method='post' action='/auth/signin')
                             input(type='hidden' name='_csrf' value=csrfToken)
                             div(class='form-group')
                                 label(for='email') Email Address
-                                input(type='email' class='form-control' id='email')
+                                input(type='email' value=input && input.email ? input.email : '' class='form-control' name='email')
                             div(class='form-group')
                                 label(for='password') Password
-                                input(type='password' class='form-control' id='password')
+                                input(type='password' class='form-control' name='password')
                             button(type='submit' class='btn btn-primary') Login

@@ -31,7 +31,7 @@ module.exports = {
 		}
 
 		try {
-			const result = await userDAC.create((params = req.body));
+			const result = await userDAC.create(params = req.body);
 			if (result.success) {
 				const user = result.user;
 				const token = await user.generateAuthToken();

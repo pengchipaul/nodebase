@@ -1,20 +1,25 @@
 extends ../layouts/layout.pug
 
 block content
+    
     div(class='container-fluid mt-5')
         div(class='row')
             div(class='col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-sm-10 offset-sm-1')
                 div(class='card')
                     div(class='card-header') Sign Up
                     div(class='card-body')
-                        form(method='post' action='/auth/signup')
+                        form(method='post' action='/auth/register')
+                            input(type='hidden' name='_csrf' value=csrfToken)
+                            div(class='form-group')
+                                label(for='username') Username
+                                input(type='text' value=input && input.username ? input.username : '' class='form-control' name='username' required)
                             div(class='form-group')
                                 label(for='email') Email Address
-                                input(type='email' class='form-control' id='email')
+                                input(type='email' value=input && input.email ? input.email : '' class='form-control' name='email' required)
                             div(class='form-group')
                                 label(for='password') Password
-                                input(type='password' class='form-control' id='password')
+                                input(type='password' value=input && input.password ? input.password : '' class='form-control' name='password' required)
                             div(class='form-group')
                                 label(for='password') Confirm Password
-                                input(type='password' class='form-control' id='confirmPassword')
+                                input(type='password' class='form-control' name='confirmPassword' required)
                             button(type='submit' class='btn btn-primary') Sign Up

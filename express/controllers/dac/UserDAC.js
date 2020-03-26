@@ -24,7 +24,7 @@ module.exports = {
 			/* hide sensitive information */
 			users.forEach(user => {
 				delete user.password;
-				delete user.tokens;
+				delete user.authTokens;
 			});
 			return users;
 		} catch (error) {
@@ -32,13 +32,20 @@ module.exports = {
 		}
 	},
 	create: async function(params) {
-		const user = new User(params);
 		try {
+			const user = new User(params);
 			await user.save();
 			return { user, success: true };
 		} catch (error) {
-			console.log(error);
 			return { error, success: false };
+		}
+	},
+	signin: async function(email, password){
+		try {
+			const user = await User.findByCredentials(email, password)
+			return user
+		} catch(e) {
+			return null
 		}
 	}
 };

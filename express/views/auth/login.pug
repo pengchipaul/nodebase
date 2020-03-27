@@ -14,5 +14,7 @@ block content
                                 input(type='email' value=input && input.email ? input.email : '' class='form-control' name='email')
                             div(class='form-group')
                                 label(for='password') Password
+                                span(class='float-right') 
+                                    a(href='/auth/forget') forget password?
                                 input(type='password' class='form-control' name='password')
                             button(type='submit' class='btn btn-primary') Login

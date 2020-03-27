@@ -1,6 +1,24 @@
 const User = require("../../db/model/User");
+const random = require("../../helper/random")
 
 module.exports = {
+	findByEmail: async function(email){
+		const user = await User.findOne({email})
+
+		if(!user) {
+			throw new Error('Unable to find user')
+		}
+
+		return user
+	},
+	findByResetToken: async function(resetToken){
+		const user = await User.findOne({pswResetToken: resetToken})
+		if(!user) {
+			throw new Error('Unable to find user')
+		}
+
+		return user
+	},
 	all: async function() {
 		try {
 			const users = await User.find();
@@ -23,21 +41,21 @@ module.exports = {
 			]);
 			/* hide sensitive information */
 			users.forEach(user => {
-				delete user.password;
-				delete user.authTokens;
+				delete user.password
+				delete user.authTokens
 			});
-			return users;
+			return users
 		} catch (error) {
-			throw new Error("Unable to get all users");
+			throw new Error("Unable to get all users")
 		}
 	},
 	create: async function(params) {
 		try {
-			const user = new User(params);
-			await user.save();
-			return { user, success: true };
+			const user = new User(params)
+			await user.save()
+			return { user, success: true }
 		} catch (error) {
-			return { error, success: false };
+			return { error, success: false }
 		}
 	},
 	signin: async function(email, password){
@@ -47,5 +65,16 @@ module.exports = {
 		} catch(e) {
 			return null
 		}
+	},
+	createPasswordResetLink: async function(user){
+		user.pswResetToken = random.generateStr(50)
+		await user.save()
+
+		return user.pswResetToken
+	},
+	resetPassword: async function(user, password){
+		user.password = password
+		user.pswResetToken = null
+		await user.save()
 	}
 };

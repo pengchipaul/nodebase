@@ -13,12 +13,14 @@ app.use(cookieParser())
 
 /* configure session */
 var session = require('express-session')
+const day = 3600000 * 24
 var sess = {
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
-        httpOnly: true
+        httpOnly: true,
+        maxAge: 3 * day
     }
 }
 if(process.env.NODE_ENV === 'production'){
@@ -39,6 +41,7 @@ app.use(function(req, res, next) {
         res.locals.errors = req.session.errors
         delete req.session.errors
     }
+
     /* load previous input */
     if(req.session.input) {
         res.locals.input = req.session.input
@@ -50,14 +53,13 @@ app.use(function(req, res, next) {
         res.locals.info = req.session.info
         delete req.session.info
     }
-
-
+    
     next()
 })
 
 /* static assets */
 app.use(express.static('dist'))
-app.use(express.static('resources/public'))
+app.use(express.static('resources'))
 
 /* configure view engine */
 app.set('view engine', 'pug')

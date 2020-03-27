@@ -27,13 +27,16 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: [6, "Minimum length is 6"],
-        maxlength: [50, "Maximum length is 50"],
+        maxlength: [500, "Maximum length is 50"],
         trim: true
     },
     authTokens: [{
         type: String,
         required: true
     }],
+    pswResetToken: {
+        type: String
+    },
     roles: [
         {
             type: mongoose.Schema.Types.ObjectId,

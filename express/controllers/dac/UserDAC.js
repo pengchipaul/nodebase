@@ -51,7 +51,8 @@ module.exports = {
 	},
 	create: async function(params) {
 		try {
-			const user = new User(params)
+			const fields = paramsFilter(params)
+			const user = new User(fields)
 			await user.save()
 			return { user, success: true }
 		} catch (error) {
@@ -74,7 +75,18 @@ module.exports = {
 	},
 	resetPassword: async function(user, password){
 		user.password = password
-		user.pswResetToken = null
+		delete user.pswResetToken
 		await user.save()
 	}
 };
+
+function paramsFilter(params){
+	var fields = {}
+	const accpeted = ["username", "email", "password"]
+	accpeted.forEach(param => {
+		if(params[param]){
+			fields[param] = params[param]
+		}
+	})
+	return fields
+}

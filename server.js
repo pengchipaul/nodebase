@@ -17,7 +17,8 @@ const day = 3600000 * 24
 var sess = {
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
+    rolling: true,
     cookie: {
         httpOnly: true,
         maxAge: 3 * day
@@ -53,7 +54,7 @@ app.use(function(req, res, next) {
         res.locals.info = req.session.info
         delete req.session.info
     }
-    
+
     next()
 })
 
@@ -69,5 +70,18 @@ app.locals.basedir = __dirname
 /* register routes */
 const routeRegister = require('./express/routes/RouteRegister')
 routeRegister.registerRoutes(app)
+
+/* catch csrf error */
+app.use(function(err, req, res, next) {
+    if(err.code !== 'EBADCSRFTOKEN') return next(err)
+
+    res.status(403)
+    req.session.info = {
+        dangers: [
+            'CSRF token invalid'
+        ]
+    }
+    res.redirect('back')
+})
 
 app.listen(process.env.PORT || 8080)

@@ -8,6 +8,9 @@ function registerWebRoutes(app) {
 
 	var userRouter = require("./web/UserRoute");
 	app.use("/users", userRouter);
+
+	var adminRouter = require("./web/AdminRoute");
+	app.use("/admin", adminRouter);
 }
 
 /* Register api routes */

@@ -3,13 +3,13 @@ const emailer = require('../../services/email')
 
 module.exports = {
     login: function(req, res){
-        res.render('auth/login', {csrfToken: req.csrfToken()})
+        return res.render('auth/login', {csrfToken: req.csrfToken()})
     },
     signup: function(req, res){
-        res.render('auth/signup', {csrfToken: req.csrfToken()})
+        return res.render('auth/signup', {csrfToken: req.csrfToken()})
     },
     forget: function(req, res){
-        res.render('auth/forget', {csrfToken: req.csrfToken()})
+        return res.render('auth/forget', {csrfToken: req.csrfToken()})
     },
     resetForm: async function(req, res){
         try {
@@ -17,9 +17,9 @@ module.exports = {
             if(!user) {
                 throw new Error('Unable to find user')
             }
-            res.render('auth/reset', {csrfToken: req.csrfToken(), resetToken: req.params.resetToken})
+            return res.render('auth/reset', {csrfToken: req.csrfToken(), resetToken: req.params.resetToken})
         } catch (e) {
-            res.redirect('/')
+            return res.redirect('/')
         }
         
     },
@@ -33,7 +33,7 @@ module.exports = {
                         "Successfully logged in"
                     ]
                 }
-                res.redirect('/app')
+                return res.redirect('/app')
             } else {
                 req.session.info = {
                     warnings: [
@@ -41,14 +41,14 @@ module.exports = {
                     ]
                 }
                 req.session.input = req.body
-                res.redirect('/auth/login')
+                return res.redirect('/auth/login')
             }
         } catch(e) {
             req.session.errors = {
                 server: "Server error"
             }
             req.session.input = req.body
-            res.redirect('/auth/login')
+            return res.redirect('/auth/login')
         }
     },
     register: async function(req, res){
@@ -62,31 +62,31 @@ module.exports = {
                         "Welcome to " + process.env.APP_NAME
                     ]
                 }
-                res.redirect('/app')
+                return res.redirect('/app')
             } else {
                 req.session.errors = {
                     input: result.error.errors
                 }
                 req.session.input = req.body
-                res.redirect('/auth/signup')
+                return res.redirect('/auth/signup')
             }
         } catch(e) {
             req.session.errors = {
                 server: "server error"
             }
             req.session.input = req.body
-            res.redirect('/auth/signup')
+            return res.redirect('/auth/signup')
         }
     },
     logout: async function(req, res){
         try {
-            delete req.session.auth
-            res.redirect('/auth/login')
+            req.session.auth = {}
+            return res.redirect('/auth/login')
         } catch(e) {
             req.session.errors = {
                 server: "Server error"
             }
-            res.redirect('/auth/login')
+            return res.redirect('/auth/login')
         }
     },
     send_reset_link: async function(req, res){
@@ -104,14 +104,14 @@ module.exports = {
                         "A reset password link has been sent to " + req.body.email
                     ]
                 }
-                res.redirect('/auth/login')
+                return res.redirect('/auth/login')
             }catch(e) {
                 req.session.info = {
                     warnings: [
                         "Failed to send password rest link"
                     ]
                 }
-                res.redirect('/auth/forget')
+                return res.redirect('/auth/forget')
             }
 
         } catch(e){
@@ -120,7 +120,7 @@ module.exports = {
                     "User is not found"
                 ]
             }
-            res.redirect('/auth/forget')
+            return res.redirect('/auth/forget')
         }
     },
     reset: async function(req, res){
@@ -136,14 +136,14 @@ module.exports = {
                         "Password has been reset"
                     ]
                 }
-                res.redirect('/app')
+                return res.redirect('/app')
             } catch(e) {
                 req.session.info = {
                     warnings: [
                         "Unable to save the new password"
                     ]
                 }
-                res.redirect('back')
+                return res.redirect('back')
             }
         } catch(e) {
             req.session.info = {
@@ -151,7 +151,7 @@ module.exports = {
                     "User is not found"
                 ]
             }
-            res.redirect('back')
+            return res.redirect('back')
         }
     }
 }

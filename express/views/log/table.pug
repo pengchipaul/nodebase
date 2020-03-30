@@ -1,0 +1,21 @@
+extends ../layouts/layout.pug
+
+block content
+
+    div#log-table(class='mt-5')
+        if logs 
+            table(class='table table-hover table-sm')
+                thead
+                    tr
+                        th(scope='col') #
+                        th(scope='col') type
+                        th(scope='col') recorded by
+                        th(scope='col') message
+                        th(scope='col') created at
+                tbody 
+                    each val, index in logs
+                        th(scope='row')= index
+                        td= val.type
+                        td= val.by
+                        td= val.message
+                        td= val.createdAt

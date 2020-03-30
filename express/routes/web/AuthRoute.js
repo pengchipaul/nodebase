@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 
 const authController = require('../../controllers/web/AuthController')
+
 const guest = require('../../middleware/web/guest')
 const csrf = require('../../middleware/web/csrf')
 const auth = require('../../middleware/web/auth')

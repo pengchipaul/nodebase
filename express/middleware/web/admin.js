@@ -5,9 +5,9 @@ const admin = async (req, res, next) => {
        if(req.session.auth.user.superAdmin){
            next()
        } else {
-           const message = req.session.auth.user.email + " tried to access admin route"
            try { 
-               logDAC.create('Unauthorized', 'System', message)
+                const message = req.session.auth.user.email + " tried to access super admin route " + req.originalUrl + "."
+                logDAC.create('Unauthorized', 'System', message, 'high')
            } catch (e) {
                console.log(e)
            }

@@ -4,7 +4,7 @@ block content
 
     div#log-table(class='mt-5')
         if logs 
-            table(class='table table-hover table-sm')
+            table(class='table table-hover table-sm table-bordered')
                 thead
                     tr
                         th(scope='col') #
@@ -14,8 +14,9 @@ block content
                         th(scope='col') created at
                 tbody 
                     each val, index in logs
-                        th(scope='row')= index
-                        td= val.type
-                        td= val.by
-                        td= val.message
-                        td= val.createdAt
+                        tr(class=val.priority === 'high' ? 'table-danger' : val.priority === 'medium' ? 'table-warning' : '')
+                            th(scope='row')= index + 1
+                            td= val.type
+                            td= val.by
+                            td= val.message
+                            td= val.createdAt

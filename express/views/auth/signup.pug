@@ -9,7 +9,7 @@ block content
                     div(class='card-header') Sign Up
                     div(class='card-body')
                         form(method='post' action='/auth/register')
-                            input(type='hidden' name='_csrf' value=csrfToken)
+                            include /express/views/snippets/csrf.pug
                             div(class='form-group')
                                 label(for='username') Username
                                 input(type='text' value=input && input.username ? input.username : '' class='form-control' name='username' required)

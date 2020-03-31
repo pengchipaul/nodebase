@@ -1,0 +1,67 @@
+extends ../layouts/layout.pug
+
+block content
+
+    ul#users-tabs.nav.nav-tabs.mt-3(role='tablist')
+        li.nav-item
+            a#user-tab(class=(tab === 'user') ? 'nav-link active' : 'nav-link' data-toggle='tab' href='#user' role='tab' aria-control='user' aria-selected='true') Users
+        li.nav-item
+            a#role-tab(class=(tab === 'role') ? 'nav-link active' : 'nav-link' data-toggle='tab' href='#role' role='tab' aria-control='role' aria-selected='false') Roles
+    
+    div.tab-content
+
+        div#user(class=(tab === 'user' ? 'tab-pane fade show active' : 'tab-pane fade') role='tabpanel' aria-labelledby='user-tab')
+            
+            if users
+                table#users-table(class='table table-hover table-sm table-bordered')
+                    thead
+                        tr
+                            th(scope='col') #
+                            th(scope='col') username
+                            th(scope='col') email
+                            th(scope='col') roles
+                            th(scope='col') status
+                            th(scope='col') actions
+                    tbody
+                        each user, index in users
+                            tr(class=user.locked ? 'table-warning' : '')
+                                th(scope='row')= index + 1
+                                td= user.username
+                                td= user.email
+                                td
+                                    each role in user.roles
+                                        span= "[" + role + "] "
+                                td
+                                    if user.locked
+                                        = 'Locked'
+                                    else 
+                                        = 'Normal'
+                                td
+                                    a(href='/admin/users/edit/' + user._id ) edit
+        
+        div#role(class=(tab === 'role' ? 'tab-pane fade show active' : 'tab-pane fade') role='tabpanel' aria-labelledby='role-tab')
+            
+            div.container-fluid
+                button.btn.btn-success.float-right(type='button' data-toggle='modal' data-target='#add-role-modal') New Role
+                div#add-role-modal.modal.fade(tabindex='-1' aria-labelledby='add-role-modal' aria-hidden='true')
+                    div.modal-dialog(role='document')
+                        div.modal-content
+                            div.modal-header
+                                h5.modal-title Add role
+                                button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                    span(aria-hidden='true') &times;
+                            div.modal-body
+                                include ./role/addForm.pug
+            
+            if roles
+                table#roles-table(class='table table-hover table-sm table-bordered mt-3')
+                    thead
+                        tr
+                            th(scope='col') #
+                            th(scope='col') role name
+                    tbody
+                        each role, index in roles
+                            tr
+                                th(scope='row')= index + 1
+                                td= role.name
+                    

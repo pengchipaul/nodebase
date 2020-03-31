@@ -8,7 +8,7 @@ block content
                     div(class='card-header') Login
                     div(class='card-body')
                         form(method='post' action='/auth/signin')
-                            input(type='hidden' name='_csrf' value=csrfToken)
+                            include /express/views/snippets/csrf.pug
                             div(class='form-group')
                                 label(for='email') Email Address
                                 input(type='email' value=input && input.email ? input.email : '' class='form-control' name='email')

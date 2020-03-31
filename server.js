@@ -13,7 +13,7 @@ app.use(cookieParser())
 
 /* configure session */
 var session = require('express-session')
-const day = 3600000 * 24
+const day = 1000 * 60 * 60 * 24
 var sess = {
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -21,7 +21,7 @@ var sess = {
     rolling: true,
     cookie: {
         httpOnly: true,
-        maxAge: 3 * day
+        maxAge: 7 * day
     }
 }
 if(process.env.NODE_ENV === 'production'){
@@ -33,9 +33,8 @@ app.use(function(req, res, next) {
     /* initialize auth */
     if(!req.session.auth){
         req.session.auth = {}
-    } else {
-        res.locals.auth = req.session.auth
     }
+    res.locals.auth = req.session.auth
 
     /* load input data errors */
     if(req.session.errors) {

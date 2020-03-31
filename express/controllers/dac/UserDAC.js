@@ -1,14 +1,22 @@
-const User = require("../../db/model/User");
+const User = require("../../db/model/User")
 const random = require("../../helper/random")
+const requestHelper = require("../../helper/request")
+
+const fillable = ["username", "email", "password"]
 
 module.exports = {
+	findById: async function(id) {
+		const user = await User.findOne({_id: id})
+		if(!user) {
+			throw new Error('Unable to find user')
+		}
+		return user
+	},
 	findByEmail: async function (email) {
 		const user = await User.findOne({ email })
-
 		if (!user) {
 			throw new Error('Unable to find user')
 		}
-
 		return user
 	},
 	findByResetToken: async function (resetToken) {
@@ -16,38 +24,27 @@ module.exports = {
 		if (!user) {
 			throw new Error('Unable to find user')
 		}
-
 		return user
 	},
 	all: async function () {
-		try {
-			const users = await User.find()
-			return users
-		} catch (e) {
-			throw new Error("Unable to get all users")
-		}
-	},
-	allExt: async function () {
-		var users = await User.aggregate([
-			{
-				$lookup: {
-					from: "roles",
-					localField: "roles.roleId",
-					foreignField: "_id",
-					as: "roles"
-				}
-			}
-		]);
-		/* hide sensitive information */
+		const users = await User.find({superAdmin: false})
+		var userData = []
 		users.forEach(user => {
-			delete user.password
-			delete user.authTokens
-		});
-		return users
+			userData.push({
+				_id: user._id,
+				roles: user.roles,
+				locked: user.locked,
+				username: user.username,
+				email: user.email,
+				createdAt: user.createdAt,
+				updatedAt: user.updatedAt
+			})
+		})
+		return userData
 	},
 	create: async function (params) {
 		try {
-			const fields = paramsFilter(params)
+			const fields = requestHelper.filterParams(params, fillable)
 			const user = new User(fields)
 			await user.save()
 			return { user, success: true }
@@ -56,12 +53,8 @@ module.exports = {
 		}
 	},
 	signin: async function (email, password) {
-		try {
-			const user = await User.findByCredentials(email, password)
-			return user
-		} catch (e) {
-			return null
-		}
+		const user = await User.findByCredentials(email, password)
+		return user
 	},
 	createPasswordResetLink: async function (user) {
 		user.pswResetToken = random.generateStr(50)
@@ -75,14 +68,3 @@ module.exports = {
 		await user.save()
 	}
 };
-
-function paramsFilter(params) {
-	var fields = {}
-	const accpeted = ["username", "email", "password"]
-	accpeted.forEach(param => {
-		if (params[param]) {
-			fields[param] = params[param]
-		}
-	})
-	return fields
-}

@@ -3,6 +3,7 @@ var router = express.Router()
 
 const indexController = require('../../controllers/web/IndexController')
 const auth = require('../../middleware/web/auth')
+const role = require('../../middleware/web/role')
 
 /* home page */
 router.get('/', indexController.index)

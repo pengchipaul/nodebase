@@ -11,14 +11,10 @@ module.exports = {
 	},
 	create: async function(req, res) {
 		try {
-			const result = await roleDAC.create(req.body);
-			if (result.success) {
-				res.json({ success: true, role: result });
-			} else {
-				res.json({ success: false, error: result.error });
-			}
+			const role = await roleDAC.create(req.body);
+			res.json({ success: true, role });
 		} catch (e) {
-			res.status(400).send(e);
+			res.status(400).send({ success: false, error: e});
 		}
 	}
 };

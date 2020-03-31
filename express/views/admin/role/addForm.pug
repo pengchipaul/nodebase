@@ -1,0 +1,6 @@
+form(method='post' action='/admin/roles/create')
+    include /express/views/snippets/csrf.pug
+    div.form-group 
+        label(for='name') role name
+        input.form-control(type='text' name='name' required)
+    button.btn.btn-primary(type='submit') Create

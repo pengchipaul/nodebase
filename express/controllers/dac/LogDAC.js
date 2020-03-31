@@ -20,11 +20,13 @@ module.exports = {
         })
         return logs
     },
-    create: function(type, by, message){
-        new Log({
+    create: function(type, by, message, priority = 'low'){
+        const log = new Log({
             type, 
             by, 
-            message
+            message,
+            priority
         })
+        log.save()
     }
 }

@@ -1,0 +1,32 @@
+extends ../../layouts/layout.pug
+
+block content 
+    div.container-fluid.mt-5
+        div.row
+            div.col-lg-6.offset-lg-3.col-md-8.offset-md-2.col-sm-12
+                div.card
+                    div.card-header Edit User 
+                    div.card-body
+                        form(method='patch' action='/auth/users/update')
+                            include /express/views/snippets/csrf.pug
+                            div.form-group
+                                label(for='username') Username
+                                input.form-control(type='text' value=user.username name='username' required)
+                            div.form-group
+                                label(for='email') Email Address
+                                input.form-control(type='email' value=user.email name='email' required)
+                            div.form-group
+                                label.mr-3(for='locked') Locked
+                                input(type='checkbox' name='locked' checked=user.locked)
+                            div.form-group
+                                label(for='roles') Roles
+                                br
+                            div.form-group
+                                label(for='password') Password
+                                input.form-control(type='password' placeholder='********' name='password' required)
+                            div.form-group
+                                label(for='confirmPassword') Confirm Password
+                                input.form-control(type='password' placeholder='********' name='confirmPassword' required)
+                            button.btn.btn-primary.mr-3(type='submit') Update
+                            a.btn.btn-secondary(href='/admin/index') Back
+                    

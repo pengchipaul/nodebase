@@ -39,12 +39,16 @@ const userSchema = new mongoose.Schema({
     },
     roles: [
         {
-            type: mongoose.Schema.Types.ObjectId,
+            type: String,
             required: true,
             ref: "Role"
         }
     ],
     superAdmin: {
+        type: Boolean,
+        default: false
+    },
+    locked: {
         type: Boolean,
         default: false
     }
@@ -57,7 +61,6 @@ userSchema.methods.toJSON = function () {
     const userObject = user.toObject()
 
     delete userObject.password
-    delete userObject.tokens
 
     return userObject
 }

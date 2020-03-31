@@ -1,23 +1,18 @@
 const Role = require('../../db/model/Role')
+const requestHelper = require('../../helper/request')
+
+const fillable = ["name"]
 
 module.exports = {
     all: async function(){
-        try {
-            const roles = await Role.find()
-            return roles
-        } catch (e) {
-            throw new Error("unable to get all roles")
-        }
+        const roles = await Role.find()
+        return roles
     },
     create: async function(params){
-        const role = new Role(params)
-        try{
-            await role.save()
-            return {role, success: true}
-        } catch(error) {
-            console.log(error)
-            return {error, success: false}
-        }
+        const fields = requestHelper.filterParams(params, fillable)
+        const role = new Role(fields)
+        await role.save()
+        return role
     },
     findByName: async function(name){
         try {

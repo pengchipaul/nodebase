@@ -16,19 +16,19 @@ html
         block headScripts
     body
 
-        div#main(style='min-height: 100vh')
+        div#main.mb-3(style='min-height: 95vh')
             include navbar.pug
 
             include ../snippets/flash.pug
 
             block content
-            
-            footer#footer(style="position: absolute; bottom: 0; right: 20px")
-                p developed by Paul Peng
 
         script(src='/public.js')
 
         block bottomScripts
+
+        footer#footer.float-right.mr-3
+                p developed by Paul Peng
 
         
 

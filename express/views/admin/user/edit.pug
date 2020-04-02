@@ -1,32 +1,50 @@
 extends ../../layouts/layout.pug
 
 block content 
-    div.container-fluid.mt-5
-        div.row
-            div.col-lg-6.offset-lg-3.col-md-8.offset-md-2.col-sm-12
-                div.card
-                    div.card-header Edit User 
-                    div.card-body
-                        form(method='patch' action='/auth/users/update')
+    .container-fluid.mt-5
+        .row
+            .col-lg-6.offset-lg-3.col-md-8.offset-md-2.col-sm-12
+                .card
+                    .card-header Edit User 
+                    .card-body
+                        form(method='post' action='/admin/users/update')
                             include /express/views/snippets/csrf.pug
-                            div.form-group
+                            input(type='hidden' name='_method' value='PATCH')
+                            input(type='hidden' name='id' value=user._id)
+                            .form-group
                                 label(for='username') Username
                                 input.form-control(type='text' value=user.username name='username' required)
-                            div.form-group
+                            .form-group
                                 label(for='email') Email Address
                                 input.form-control(type='email' value=user.email name='email' required)
-                            div.form-group
+                            .form-group
                                 label.mr-3(for='locked') Locked
                                 input(type='checkbox' name='locked' checked=user.locked)
-                            div.form-group
+                            hr
+                            .form-group
                                 label(for='roles') Roles
                                 br
-                            div.form-group
+                                if roles
+                                    each val in roles
+                                        input.mr-2(type='checkbox' name='roles' value=val._id checked=user.roles.includes(val.name))
+                                        label= val.name
+                                        br
+                            button.btn.btn-primary.mr-3(type='submit') Update
+                            a.btn.btn-secondary(href='/admin/users/tab=user') Back
+
+    .container-fluid.mt-5
+        .row
+            .col-lg-6.offset-lg-3.col-md-8.offset-md-2.col-sm-12
+                .card
+                    .card-header Reset Password
+                    .card-body
+                        form(method='post' action='/auth/users/update_password')
+                            include /express/views/snippets/csrf.pug
+                            .form-group
                                 label(for='password') Password
                                 input.form-control(type='password' placeholder='********' name='password' required)
-                            div.form-group
+                            .form-group
                                 label(for='confirmPassword') Confirm Password
                                 input.form-control(type='password' placeholder='********' name='confirmPassword' required)
-                            button.btn.btn-primary.mr-3(type='submit') Update
-                            a.btn.btn-secondary(href='/admin/index') Back
-                    
+                            button.btn.btn-primary.mr-3(type='submit') Reset
+                            a.btn-btn-secondry(href='/admin/users/tab=user') Back

@@ -8,14 +8,15 @@ nav(class='navbar navbar-expand-lg sticky-top navbar-light bg-light')
             li(class='nav-item active')
                 a(class='nav-link btn btn-light' href='/') Home
                     span(class='sr-only') (current)
-            li(class='nav-item')
+            li(class='nav-item active')
                 a(class='nav-link btn btn-light' href='/app') App
             
-            if (auth.user && auth.user.superAdmin) 
-                li(class='nav-item')
-                    a(class='nav-link btn btn-light' href='/admin/logs') Logs
-                li(class='nav-item')
-                    a(class='nav-link btn btn-light' href='/admin/index') Admin
+            if (auth.user && auth.user.superAdmin)
+                    div.btn-group
+                        button.btn.btn-light.dropdown-toggle(type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false') Admin
+                        div.dropdown-menu
+                            a.dropdown-item(href='/admin/users/tab=user') User Management
+                            a.dropdown-item(href='/admin/logs') Logs
         ul(class='navbar-nav ml-auto mt-2 mt-lg-0')
             if(auth.user)
                 li(class='nav-item')

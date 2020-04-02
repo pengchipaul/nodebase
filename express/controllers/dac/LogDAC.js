@@ -2,7 +2,7 @@ const Log = require("../../db/model/Log")
 
 module.exports = {
     findAll: async function(){
-        const logs = await Log.find()
+        const logs = await Log.find().sort('-createdAt')
         return logs
     },
     findInRecent: async function(hours) {

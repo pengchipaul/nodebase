@@ -14,9 +14,11 @@ router.get('/logs', admin, logController.index)
 router.get('/index', [admin, csrf], function(req, res) {
     res.redirect('/admin/index/tab=user')
 })
-router.get('/index/tab=:tab', [admin, csrf], adminController.index)
+router.get('/users/tab=user', admin, adminController.showUsers)
+router.get('/users/tab=role', [admin, csrf], adminController.showRoles)
 router.get('/users/edit/:id', [admin, csrf], adminController.editUser)
-router.post('/roles/create', [admin, csrf], adminController.createRole)
+router.post('/users/roles/create', [admin, csrf], adminController.createRole)
+router.patch('/users/update', [admin, csrf], adminController.updateUser)
 
 
 module.exports = router

@@ -1,0 +1,58 @@
+extends /express/views/layouts/layout.pug
+
+block content
+
+    include ../tab-menu.pug
+    include /express/views/snippets/modal.pug
+    
+    div.tab-content
+
+        div#user.tab-pane.show.active
+        
+            if users
+                table#users-table(class='table table-hover table-sm table-bordered')
+                    thead
+                        tr
+                            th(scope='col') #
+                            th(scope='col') username
+                            th(scope='col') email
+                            th(scope='col') roles
+                            th(scope='col') status
+                            th(scope='col') actions
+                    tbody
+                        each user, index in users
+                            tr(class=user.locked ? 'table-warning' : '')
+                                th(scope='row')= index + 1
+                                td= user.username
+                                td= user.email
+                                td
+                                    each role in user.roles
+                                        span= "[" + role + "] "
+                                td
+                                    if user.locked
+                                        = 'Locked'
+                                    else 
+                                        = 'Normal'
+                                td
+                                    a(href='/admin/users/edit/' + user._id ) edit
+        
+        div#role(class=(tab === 'role' ? 'tab-pane fade show active' : 'tab-pane fade') role='tabpanel' aria-labelledby='role-tab')
+            
+            div.container-fluid
+                button.btn.btn-success.float-right(type='button' data-toggle='modal' data-target='#add-role-modal') New Role
+                +modal('add-role-modal', 'Add Role')
+                    include ./addForm.pug
+                   
+            
+            if roles
+                table#roles-table(class='table table-hover table-sm table-bordered mt-3')
+                    thead
+                        tr
+                            th(scope='col') #
+                            th(scope='col') role name
+                    tbody
+                        each role, index in roles
+                            tr
+                                th(scope='row')= index + 1
+                                td= role.name
+                    

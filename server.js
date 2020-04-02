@@ -1,15 +1,23 @@
 require('dotenv').config()
 const express = require('express')
 require('./express/db/mongoose')
-const bodyParser = require('body-parser')
-const cookieParser = require('cookie-parser')
-const path = require('path')
-const app = express()
+var bodyParser = require('body-parser')
+var cookieParser = require('cookie-parser')
+var methodOverride = require('method-override')
+var path = require('path')
+var app = express()
 
 /* parsing input data */
 app.use(express.json())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(cookieParser())
+
+/* override http request method */
+app.use(methodOverride(function (req, res) {
+    var method = req.body._method
+    delete req.body._method
+    return method
+}))
 
 /* configure session */
 var session = require('express-session')

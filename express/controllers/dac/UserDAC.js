@@ -1,4 +1,6 @@
 const User = require("../../db/model/User")
+const logDAC = require("./LogDAC")
+
 const random = require("../../helper/random")
 const requestHelper = require("../../helper/request")
 
@@ -6,7 +8,7 @@ const fillable = ["username", "email", "password"]
 
 module.exports = {
 	findById: async function(id) {
-		const user = await User.findOne({_id: id})
+		const user = await User.findById(id)
 		if(!user) {
 			throw new Error('Unable to find user')
 		}
@@ -65,6 +67,39 @@ module.exports = {
 	resetPassword: async function (user, password) {
 		user.password = password
 		delete user.pswResetToken
+		await user.save()
+	},
+	updateInfo: async function (user, params, roles = null) {
+		user.username = params.username
+		user.email = params.email
+		if(params.locked){
+			if(!user.locked) {
+				try {
+					logDAC.create('Lock Account', 'System', user.email + " was locked.")
+				} catch(e) {
+					console.log(e)
+				}
+			}
+			user.locked = true
+		} else {
+			if(user.locked){
+				try {
+					logDAC.create('Unlock Account', 'System', user.email + " was unlocked.")
+				} catch(e) {
+					console.log(e)
+				}
+			}
+			user.locked = false
+		}
+		if(roles){
+			var roleNames = []
+			roles.forEach(role => {
+				roleNames.push(role.name)
+			})
+			user.roles = roleNames
+		} else {
+			user.roles = []
+		}
 		await user.save()
 	}
 };

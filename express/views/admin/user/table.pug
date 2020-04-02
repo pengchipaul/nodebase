@@ -1,0 +1,35 @@
+extends /express/views/layouts/layout.pug
+
+block content
+
+    include ../tab-menu.pug
+    
+    div
+        
+        if users
+            table#users-table(class='table table-hover table-sm table-bordered')
+                thead
+                    tr
+                        th(scope='col') #
+                        th(scope='col') username
+                        th(scope='col') email
+                        th(scope='col') roles
+                        th(scope='col') status
+                        th(scope='col') actions
+                tbody
+                    each user, index in users
+                        tr(class=user.locked ? 'table-warning' : '')
+                            th(scope='row')= index + 1
+                            td= user.username
+                            td= user.email
+                            td
+                                each role in user.roles
+                                    span= "[" + role + "] "
+                            td
+                                if user.locked
+                                    = 'Locked'
+                                else 
+                                    = 'Normal'
+                            td
+                                a(href='/admin/users/edit/' + user._id ) edit
+                    

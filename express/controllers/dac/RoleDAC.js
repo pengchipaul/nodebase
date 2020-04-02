@@ -15,19 +15,24 @@ module.exports = {
         return role
     },
     findByName: async function(name){
-        try {
-            const role = await Role.findOne({name: name})
-            return role
-        } catch (e){
-            throw new Error("unable to get role")
+        const role = await Role.findOne({name: name})
+        if(!role) {
+            throw new Error('Unable to find role')
         }
+        return role
     },
     findById: async function(id){
-        try {
-            const role = await Role.findOne({_id: id})
-            return role
-        } catch(e) {
-            throw new Error("unable to get role")
+        const role = await Role.findOne({_id: id})
+        if(!role){
+            throw new Error('Unable to find role')
         }
+        return role
+    },
+    findManyByIds: async function(ids) {
+        const roles = await Role.find({_id: {$in: ids}})
+        if(!roles) {
+            throw new Error('Unable to find roles')
+        }
+        return roles
     }
 }

@@ -101,5 +101,9 @@ module.exports = {
 			user.roles = []
 		}
 		await user.save()
+	},
+	updatePassword: async function(user, password){
+		user.password = password
+		await user.save()
 	}
 };

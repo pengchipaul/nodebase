@@ -88,8 +88,41 @@ module.exports = {
             }
             return res.redirect('back')
         }
+    },
+    updateUserPassword: async function(req, res){
+        var user
+        try {
+            user = await userDAC.findById(req.body.id)
+        } catch(e) {
+            req.session.info = {
+                dangers: [
+                    'Unable to find user'
+                ]
+            }
+            return res.redirect('back')
+        }
 
-
+        try {
+            await userDAC.updatePassword(user, req.body.password)
+            req.session.info = {
+                success: [
+                    'Password was updated successfully'
+                ]
+            }
+            return res.redirect('back')
+        } catch(e) {
+            if(e.errors) {
+                req.session.errors = {
+                    input: e.errors
+                }
+            }
+            req.session.info = {
+                dangers: [
+                    'Unable to update password'
+                ]
+            }
+            return res.redirect('back')
+        }
     },
     createRole: async function(req, res) {
         try {

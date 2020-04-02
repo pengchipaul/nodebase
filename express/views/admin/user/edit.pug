@@ -38,8 +38,10 @@ block content
                 .card
                     .card-header Reset Password
                     .card-body
-                        form(method='post' action='/auth/users/update_password')
+                        form(method='post' action='/admin/users/update_password')
                             include /express/views/snippets/csrf.pug
+                            input(type='hidden' name='_method' value='PATCH')
+                            input(type='hidden' name='id' value=user._id)
                             .form-group
                                 label(for='password') Password
                                 input.form-control(type='password' placeholder='********' name='password' required)
@@ -47,4 +49,4 @@ block content
                                 label(for='confirmPassword') Confirm Password
                                 input.form-control(type='password' placeholder='********' name='confirmPassword' required)
                             button.btn.btn-primary.mr-3(type='submit') Reset
-                            a.btn-btn-secondry(href='/admin/users/tab=user') Back
+                            a.btn.btn-secondary(href='/admin/users/tab=user') Back

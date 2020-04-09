@@ -5,7 +5,7 @@ const auth = async (req, res, next) => {
             req.user = user
             next()
         } else {
-            throw new Error()
+            throw new Error('Unauthorized')
         }
     } catch (e){
         res.redirect('/auth/login')

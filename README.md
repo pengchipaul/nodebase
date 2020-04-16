@@ -1,9 +1,13 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and node.js express
+This project was built with react and node.js express
 
 ## To run this project
 
-npm run build 
+have mongodb and npm installed
 
-nodemon server.js
+run 'npm run install'
 
-and go to localhost:8080 to view
+run 'npm run server' (for node.js backend)
+
+run 'npm run dev' to build react front-end components
+
+then go to localhost:8080 to view

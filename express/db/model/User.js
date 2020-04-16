@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: [6, "Minimum length is 6"],
-        maxlength: [500, "Maximum length is 50"],
+        maxlength: [500, "Maximum length is 500"],
         trim: true
     },
     authTokens: [{

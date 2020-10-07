@@ -1,4 +1,4 @@
-This project was built with react and node.js express
+A simple role manager app built on express and mongodb
 
 ## To run this project
 

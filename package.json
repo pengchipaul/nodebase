@@ -15,7 +15,7 @@
     "mongoose-unique-validator": "^2.0.3",
     "nodemailer": "^6.4.6",
     "nodemon": "^2.0.2",
-    "pug": "^2.0.4",
+    "pug": "^3.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "validator": "^12.2.0"
